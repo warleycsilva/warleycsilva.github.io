@@ -4734,8 +4734,11 @@ input[type="button"].btn-block {
   word-wrap: break-word;
   background-color: #fff;
   background-clip: border-box;
-  border: 1px solid rgba(0, 0, 0, 0.125);
-  border-radius: 0.25rem;
+  border-left: 2px solid #85c226;
+  border-right: 2px solid #85c226;
+  border-bottom: 2px solid #85c226;
+  border-radius: 20px;;
+  margin-bottom: 10px;
 }
 
 .card > hr {
@@ -6497,7 +6500,7 @@ a.close.disabled {
   -ms-flex-pack: center;
   justify-content: center;
   width: 15%;
-  color: #fff;
+  color: #85c226;
   text-align: center;
   opacity: 0.5;
   transition: opacity 0.15s ease;
@@ -6513,7 +6516,7 @@ a.close.disabled {
 .carousel-control-prev:hover, .carousel-control-prev:focus,
 .carousel-control-next:hover,
 .carousel-control-next:focus {
-  color: #fff;
+  color: #85c226;
   text-decoration: none;
   outline: 0;
   opacity: 0.9;
@@ -6533,6 +6536,20 @@ a.close.disabled {
   width: 20px;
   height: 20px;
   background: no-repeat 50% / 100% 100%;
+  color: #000;
+}
+
+.carousel-control-next-icon:after
+{
+  content: '>';
+  font-size: 55px;
+  color: #85c226;
+}
+
+.carousel-control-prev-icon:after {
+  content: '<';
+  font-size: 55px;
+  color: #85c226;
 }
 
 .carousel-control-prev-icon {
@@ -6544,7 +6561,7 @@ a.close.disabled {
 }
 
 .carousel-indicators {
-  position: absolute;
+  position: static;
   right: 0;
   bottom: 0;
   left: 0;
@@ -6557,6 +6574,7 @@ a.close.disabled {
   margin-right: 15%;
   margin-left: 15%;
   list-style: none;
+  color:black;
 }
 
 .carousel-indicators li {
@@ -6564,12 +6582,12 @@ a.close.disabled {
   -ms-flex: 0 1 auto;
   flex: 0 1 auto;
   width: 30px;
-  height: 3px;
+  height: 7px;
   margin-right: 3px;
   margin-left: 3px;
   text-indent: -999px;
   cursor: pointer;
-  background-color: #fff;
+  background-color: #85c226;
   background-clip: padding-box;
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
