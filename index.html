@@ -1,513 +1,1038 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Warley Silva — Lead Engineer & AI Architect</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #111111;
+    --surface: rgba(255,255,255,0.04);
+    --surface-hover: rgba(255,255,255,0.08);
+    --border: rgba(255,255,255,0.10);
+    --border-light: rgba(255,255,255,0.06);
+    --white: #ffffff;
+    --white-70: rgba(255,255,255,0.70);
+    --white-40: rgba(255,255,255,0.40);
+    --white-20: rgba(255,255,255,0.20);
+    --white-10: rgba(255,255,255,0.10);
+    --font-display: 'Cormorant Garamond', serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body { background:var(--bg); color:var(--white-70); font-family:var(--font-body); font-size:16px; line-height:1.7; overflow-x:hidden; cursor:none; }
 
-  <title> Infinity Loq Brasil</title>
-  <meta content="" name="descriptison">
-  <meta content="" name="keywords">
+  /* CURSOR */
+  .cursor-dot { width:6px; height:6px; background:var(--white); border-radius:50%; position:fixed; top:0; left:0; pointer-events:none; z-index:9999; }
+  .cursor-ring { width:32px; height:32px; border:1px solid var(--white-40); border-radius:50%; position:fixed; top:0; left:0; pointer-events:none; z-index:9998; transition:width .2s,height .2s,border-color .2s; }
 
-  <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  /* GRAIN */
+  body::before { content:''; position:fixed; inset:0; opacity:.025; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); pointer-events:none; z-index:0; }
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  /* NAV */
+  nav { position:fixed; top:0; left:0; right:0; z-index:100; padding:20px 60px; display:flex; justify-content:space-between; align-items:center; background:rgba(17,17,17,.6); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); border-bottom:1px solid var(--border-light); transition:padding .4s; }
+  nav.scrolled { padding:14px 60px; }
+  .nav-logo { font-family:var(--font-display); font-size:1.2rem; font-weight:400; color:var(--white); letter-spacing:.05em; text-decoration:none; cursor:none; }
+  .nav-links { display:flex; gap:36px; list-style:none; }
+  .nav-links a { color:var(--white-40); text-decoration:none; font-size:.78rem; letter-spacing:.12em; text-transform:uppercase; transition:color .3s; cursor:none; }
+  .nav-links a:hover { color:var(--white); }
+  .nav-cta { border:1px solid var(--border) !important; background:var(--surface) !important; color:var(--white-70) !important; padding:8px 20px; border-radius:2px; backdrop-filter:blur(10px); transition:all .3s !important; }
+  .nav-cta:hover { background:var(--surface-hover) !important; color:var(--white) !important; border-color:var(--white-20) !important; }
 
-  <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
-  <link href="assets/vendor/icofont/icofont.min.css" rel="stylesheet">
-  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="assets/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
-  <link href="assets/vendor/venobox/venobox.css" rel="stylesheet">
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  section { position:relative; z-index:1; }
+  .container { max-width:1200px; margin:0 auto; padding:0 60px; }
 
-  <!-- Template Main CSS File -->
-  <link href="assets/css/style.css" rel="stylesheet">
+  /* HERO */
+  #hero { min-height:100vh; display:flex; align-items:center; padding:120px 0 80px; position:relative; overflow:hidden; }
+  .hero-bg-orb { position:absolute; border-radius:50%; filter:blur(120px); opacity:.06; pointer-events:none; }
+  .hero-bg-orb-1 { width:600px; height:600px; background:white; top:-100px; right:-100px; }
+  .hero-bg-orb-2 { width:400px; height:400px; background:white; bottom:-50px; left:100px; }
+  .hero-inner { display:grid; grid-template-columns:1fr 360px; gap:80px; align-items:center; width:100%; }
+  .hero-badge { display:inline-flex; align-items:center; gap:8px; background:var(--surface); border:1px solid var(--border); backdrop-filter:blur(12px); padding:6px 16px; border-radius:100px; font-size:.75rem; letter-spacing:.1em; text-transform:uppercase; color:var(--white-40); margin-bottom:28px; opacity:0; animation:fadeUp .8s ease .2s forwards; }
+  .hero-badge .dot { width:6px; height:6px; background:#6ee7b7; border-radius:50%; animation:pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+  .hero-name { font-family:var(--font-display); font-size:clamp(4rem,8vw,7.5rem); font-weight:300; color:var(--white); line-height:.95; letter-spacing:-.02em; margin-bottom:24px; opacity:0; animation:fadeUp .8s ease .35s forwards; }
+  .hero-name em { font-style:italic; color:var(--white-70); }
+  .hero-typewriter { font-family:var(--font-mono); font-size:.9rem; color:var(--white-40); letter-spacing:.05em; margin-bottom:32px; min-height:1.5em; opacity:0; animation:fadeUp .8s ease .5s forwards; }
+  .cursor-blink { animation:blink 1s step-end infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+  .hero-desc { font-size:1.05rem; color:var(--white-40); max-width:540px; line-height:1.8; margin-bottom:48px; opacity:0; animation:fadeUp .8s ease .65s forwards; }
+  .hero-actions { display:flex; gap:16px; opacity:0; animation:fadeUp .8s ease .8s forwards; }
+  .btn-primary { background:var(--white); color:#111; padding:14px 32px; border:none; border-radius:2px; font-family:var(--font-body); font-size:.82rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; text-decoration:none; cursor:none; transition:all .3s; }
+  .btn-primary:hover { background:var(--white-70); transform:translateY(-1px); }
+  .btn-ghost { background:transparent; color:var(--white-70); padding:14px 32px; border:1px solid var(--border); border-radius:2px; font-family:var(--font-body); font-size:.82rem; font-weight:500; letter-spacing:.1em; text-transform:uppercase; text-decoration:none; cursor:none; backdrop-filter:blur(8px); transition:all .3s; }
+  .btn-ghost:hover { background:var(--surface-hover); border-color:var(--white-20); color:var(--white); transform:translateY(-1px); }
+  .hero-avatar-wrap { display:flex; justify-content:center; opacity:0; animation:fadeIn 1.2s ease .5s forwards; }
+  .avatar-container { width:300px; height:300px; position:relative; }
+  .avatar-ring { position:absolute; inset:-20px; border:1px solid var(--border); border-radius:50%; animation:rotateSlow 20s linear infinite; }
+  .avatar-ring::before { content:''; position:absolute; width:8px; height:8px; background:var(--white); border-radius:50%; top:50%; left:-4px; transform:translateY(-50%); }
+  @keyframes rotateSlow { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+  .avatar-glass { width:100%; height:100%; border-radius:50%; background:linear-gradient(135deg,rgba(255,255,255,.08) 0%,rgba(255,255,255,.02) 100%); border:1px solid var(--border); backdrop-filter:blur(20px); display:flex; align-items:center; justify-content:center; overflow:hidden; }
+  .avatar-svg { width:180px; height:180px; opacity:.6; }
+  .hero-stats { display:flex; gap:40px; margin-top:20px; opacity:0; animation:fadeUp .8s ease 1s forwards; }
+  .stat-num { font-family:var(--font-display); font-size:2.4rem; font-weight:300; color:var(--white); line-height:1; }
+  .stat-label { font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--white-40); margin-top:4px; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes fadeIn { from{opacity:0} to{opacity:1} }
 
+  /* SECTION BASE */
+  .section-label { font-family:var(--font-mono); font-size:.72rem; letter-spacing:.2em; text-transform:uppercase; color:var(--white-20); margin-bottom:20px; display:flex; align-items:center; gap:16px; }
+  .section-label::after { content:''; flex:1; max-width:60px; height:1px; background:var(--border); }
+  .section-title { font-family:var(--font-display); font-size:clamp(2.8rem,5vw,4.5rem); font-weight:300; color:var(--white); line-height:1.1; letter-spacing:-.01em; margin-bottom:60px; }
+  .section-title em { font-style:italic; color:var(--white-70); }
 
+  /* ABOUT */
+  #about { padding:120px 0; border-top:1px solid var(--border-light); }
+  .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; }
+  .about-text p { font-size:1.05rem; color:var(--white-40); line-height:1.9; margin-bottom:20px; }
+  .about-text p strong { color:var(--white-70); font-weight:500; }
+  .dna-title { font-size:.72rem; letter-spacing:.15em; text-transform:uppercase; color:var(--white-20); margin-bottom:20px; }
+  .dna-tags { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:40px; }
+  .tag { padding:7px 16px; background:var(--surface); border:1px solid var(--border); border-radius:100px; font-size:.8rem; color:var(--white-70); backdrop-filter:blur(8px); transition:all .3s; }
+  .tag:hover { background:var(--surface-hover); border-color:var(--white-20); color:var(--white); }
+  .about-card { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:28px 32px; backdrop-filter:blur(16px); margin-top:8px; }
+  .about-card-title { font-size:.72rem; letter-spacing:.15em; text-transform:uppercase; color:var(--white-20); margin-bottom:14px; }
+  .about-card p { font-size:.95rem; color:var(--white-40); line-height:1.7; font-style:italic; }
+
+  /* TIMELINE */
+  #timeline { padding:120px 0; border-top:1px solid var(--border-light); }
+  .timeline-wrap { position:relative; margin-top:60px; }
+  .timeline-line { position:absolute; left:50%; top:0; bottom:0; width:1px; background:linear-gradient(to bottom,transparent,var(--border) 10%,var(--border) 90%,transparent); transform:translateX(-50%); }
+  .timeline-item { display:grid; grid-template-columns:1fr 40px 1fr; gap:0; margin-bottom:48px; opacity:0; transform:translateY(30px); transition:all .6s ease; }
+  .timeline-item.visible { opacity:1; transform:translateY(0); }
+  .timeline-item:nth-child(odd) .timeline-content { grid-column:1; text-align:right; padding-right:48px; }
+  .timeline-item:nth-child(odd) .timeline-empty { grid-column:3; }
+  .timeline-item:nth-child(even) .timeline-content { grid-column:3; text-align:left; padding-left:48px; }
+  .timeline-item:nth-child(even) .timeline-empty { grid-column:1; }
+  .timeline-dot-col { grid-column:2; display:flex; justify-content:center; align-items:flex-start; padding-top:20px; grid-row:1; }
+  .timeline-dot { width:12px; height:12px; border:2px solid var(--white-40); border-radius:50%; background:var(--bg); flex-shrink:0; transition:all .3s; position:relative; z-index:2; }
+  .timeline-item:hover .timeline-dot { border-color:var(--white); background:var(--white); box-shadow:0 0 20px rgba(255,255,255,.3); }
+  .timeline-card { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:24px 28px; backdrop-filter:blur(16px); transition:all .3s; }
+  .timeline-item:hover .timeline-card { background:var(--surface-hover); border-color:var(--white-20); }
+  .timeline-period { font-family:var(--font-mono); font-size:.7rem; color:var(--white-20); letter-spacing:.1em; margin-bottom:6px; }
+  .timeline-role { font-family:var(--font-display); font-size:1.4rem; font-weight:400; color:var(--white); margin-bottom:4px; line-height:1.2; }
+  .timeline-company { font-size:.82rem; color:var(--white-40); margin-bottom:12px; letter-spacing:.04em; }
+  .timeline-desc { font-size:.88rem; color:var(--white-40); line-height:1.7; }
+  .timeline-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:14px; }
+  .tl-tag { font-size:.68rem; padding:3px 10px; background:var(--white-10); border:1px solid var(--border-light); border-radius:100px; color:var(--white-40); letter-spacing:.05em; }
+  .timeline-item:nth-child(odd) .timeline-tags { justify-content:flex-end; }
+  .timeline-link { display:inline-block; margin-top:12px; font-size:.72rem; color:var(--white-20); letter-spacing:.08em; text-decoration:none; border-bottom:1px solid var(--border-light); padding-bottom:1px; transition:all .3s; cursor:none; }
+  .timeline-link:hover { color:var(--white-70); border-color:var(--white-40); }
+
+  /* STACK */
+  #stack { padding:120px 0; border-top:1px solid var(--border-light); }
+  .stack-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:60px; }
+  .stack-group { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:32px; backdrop-filter:blur(16px); transition:all .3s; opacity:0; transform:translateY(20px); }
+  .stack-group.visible { opacity:1; transform:translateY(0); }
+  .stack-group:hover { background:var(--surface-hover); border-color:var(--white-20); transform:translateY(-2px); }
+  .stack-group-icon { font-size:1.4rem; margin-bottom:16px; opacity:.6; }
+  .stack-group-name { font-family:var(--font-mono); font-size:.7rem; letter-spacing:.15em; text-transform:uppercase; color:var(--white-20); margin-bottom:18px; }
+  .stack-items { display:flex; flex-wrap:wrap; gap:8px; }
+  .stack-item { font-size:.82rem; color:var(--white-70); padding:5px 12px; border:1px solid var(--border); border-radius:2px; background:rgba(255,255,255,.03); transition:all .2s; }
+  .stack-item:hover { border-color:var(--white-20); color:var(--white); background:var(--white-10); }
+
+  /* PROJECTS */
+  #projects { padding:120px 0; border-top:1px solid var(--border-light); }
+  .projects-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:24px; margin-top:60px; }
+  .project-card { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:40px; backdrop-filter:blur(16px); transition:all .4s ease; position:relative; overflow:hidden; opacity:0; transform:translateY(20px); cursor:none; }
+  .project-card.visible { opacity:1; transform:translateY(0); }
+  .project-card::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(255,255,255,.04) 0%,transparent 60%); opacity:0; transition:opacity .4s; }
+  .project-card:hover { background:var(--surface-hover); border-color:var(--white-20); transform:translateY(-4px); box-shadow:0 20px 60px rgba(0,0,0,.4); }
+  .project-card:hover::before { opacity:1; }
+  .project-card.featured { grid-column:span 2; }
+  .project-num { font-family:var(--font-mono); font-size:.68rem; color:var(--white-20); letter-spacing:.1em; margin-bottom:20px; }
+  .project-name { font-family:var(--font-display); font-size:2rem; font-weight:400; color:var(--white); margin-bottom:8px; line-height:1.2; }
+  .project-role { font-size:.78rem; color:var(--white-40); letter-spacing:.08em; margin-bottom:18px; }
+  .project-desc { font-size:.92rem; color:var(--white-40); line-height:1.8; margin-bottom:24px; }
+  .project-tags { display:flex; flex-wrap:wrap; gap:8px; }
+  .p-tag { font-size:.72rem; padding:4px 12px; background:var(--white-10); border:1px solid var(--border-light); border-radius:100px; color:var(--white-40); letter-spacing:.04em; }
+
+  /* TESTIMONIALS */
+  #testimonials { padding:120px 0; border-top:1px solid var(--border-light); overflow:hidden; }
+  .testimonials-track-wrap { margin-top:60px; overflow:hidden; mask-image:linear-gradient(to right,transparent,black 8%,black 92%,transparent); -webkit-mask-image:linear-gradient(to right,transparent,black 8%,black 92%,transparent); }
+  .testimonials-track { display:flex; gap:24px; animation:scrollTrack 55s linear infinite; width:max-content; }
+  .testimonials-track:hover { animation-play-state:paused; }
+  @keyframes scrollTrack { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  .testimonial-card { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:36px 40px; backdrop-filter:blur(16px); width:420px; flex-shrink:0; transition:all .3s; }
+  .testimonial-card:hover { background:var(--surface-hover); border-color:var(--white-20); }
+  .testimonial-quote { font-family:var(--font-display); font-size:1.1rem; font-style:italic; color:var(--white-70); line-height:1.7; margin-bottom:24px; }
+  .testimonial-author { display:flex; align-items:center; gap:12px; }
+  .testimonial-avatar { width:36px; height:36px; border-radius:50%; background:var(--white-10); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:.68rem; color:var(--white-40); flex-shrink:0; }
+  .testimonial-name { font-size:.82rem; color:var(--white-70); font-weight:500; }
+  .testimonial-title { font-size:.72rem; color:var(--white-20); margin-top:2px; }
+
+  /* CERTIFICATIONS */
+  #certifications { padding:120px 0; border-top:1px solid var(--border-light); }
+  .certs-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:32px; }
+  .cert-card { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:22px; backdrop-filter:blur(16px); transition:all .3s; opacity:0; transform:translateY(20px); }
+  .cert-card.visible { opacity:1; transform:translateY(0); }
+  .cert-card:hover { background:var(--surface-hover); border-color:var(--white-20); transform:translateY(-2px); }
+  .cert-icon { font-size:1.1rem; margin-bottom:10px; opacity:.5; }
+  .cert-name { font-size:.82rem; color:var(--white-70); font-weight:500; line-height:1.4; margin-bottom:5px; }
+  .cert-issuer { font-size:.7rem; color:var(--white-20); letter-spacing:.04em; }
+  .cert-year { font-family:var(--font-mono); font-size:.62rem; color:var(--white-20); margin-top:6px; letter-spacing:.04em; }
+  .edu-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:20px; }
+  .edu-card { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:28px; backdrop-filter:blur(16px); transition:all .3s; opacity:0; transform:translateY(20px); }
+  .edu-card.visible { opacity:1; transform:translateY(0); }
+  .edu-card:hover { background:var(--surface-hover); border-color:var(--white-20); transform:translateY(-2px); }
+  .edu-degree { font-size:.82rem; color:var(--white-70); font-weight:500; margin-bottom:6px; }
+  .edu-school { font-family:var(--font-display); font-size:1.1rem; color:var(--white); margin-bottom:4px; }
+  .edu-period { font-size:.72rem; color:var(--white-20); letter-spacing:.05em; }
+
+  /* CTA */
+  #mentorship { padding:120px 0; border-top:1px solid var(--border-light); }
+  .cta-box { background:linear-gradient(135deg,rgba(255,255,255,.06) 0%,rgba(255,255,255,.02) 100%); border:1px solid var(--border); border-radius:8px; padding:80px; backdrop-filter:blur(24px); text-align:center; position:relative; overflow:hidden; }
+  .cta-box::before { content:''; position:absolute; top:-60%; left:50%; transform:translateX(-50%); width:500px; height:500px; background:radial-gradient(circle,rgba(255,255,255,.04) 0%,transparent 70%); pointer-events:none; }
+  .cta-label { font-family:var(--font-mono); font-size:.7rem; letter-spacing:.2em; text-transform:uppercase; color:var(--white-20); margin-bottom:20px; }
+  .cta-title { font-family:var(--font-display); font-size:clamp(2.5rem,5vw,4rem); font-weight:300; color:var(--white); line-height:1.15; margin-bottom:20px; letter-spacing:-.01em; }
+  .cta-title em { font-style:italic; color:var(--white-70); }
+  .cta-desc { font-size:1rem; color:var(--white-40); max-width:520px; margin:0 auto 40px; line-height:1.8; }
+  .cta-actions { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+  .cta-bullets { display:flex; justify-content:center; gap:48px; margin-top:60px; padding-top:48px; border-top:1px solid var(--border-light); }
+  .cta-bullet-title { font-family:var(--font-display); font-size:1.6rem; color:var(--white); font-weight:300; margin-bottom:4px; }
+  .cta-bullet-desc { font-size:.78rem; color:var(--white-20); letter-spacing:.06em; text-transform:uppercase; }
+
+  /* FOOTER */
+  footer { padding:48px 60px; border-top:1px solid var(--border-light); display:flex; justify-content:space-between; align-items:center; }
+  .footer-name { font-family:var(--font-display); font-size:1rem; color:var(--white-40); font-weight:300; }
+  .footer-links { display:flex; gap:28px; }
+  .footer-links a { font-size:.75rem; letter-spacing:.1em; text-transform:uppercase; color:var(--white-20); text-decoration:none; transition:color .3s; cursor:none; }
+  .footer-links a:hover { color:var(--white-70); }
+  .footer-copy { font-size:.72rem; color:var(--white-20); }
+
+  .reveal { opacity:0; transform:translateY(24px); transition:all .7s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+
+  /* CASE STUDIES */
+  #cases { padding:120px 0; border-top:1px solid var(--border-light); }
+  .cases-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:60px; }
+  .case-card {
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:4px; backdrop-filter:blur(16px);
+    transition:all .4s ease; opacity:0; transform:translateY(20px);
+    display:flex; flex-direction:column; overflow:hidden;
+  }
+  .case-card.visible { opacity:1; transform:translateY(0); }
+  .case-card:hover { background:var(--surface-hover); border-color:var(--white-20); transform:translateY(-4px); box-shadow:0 24px 60px rgba(0,0,0,.4); }
+  .case-header { padding:32px 32px 24px; border-bottom:1px solid var(--border-light); }
+  .case-industry {
+    font-family:var(--font-mono); font-size:.65rem; letter-spacing:.15em;
+    text-transform:uppercase; color:var(--white-20); margin-bottom:12px;
+  }
+  .case-name { font-family:var(--font-display); font-size:1.8rem; font-weight:400; color:var(--white); line-height:1.1; margin-bottom:6px; }
+  .case-role { font-size:.76rem; color:var(--white-40); letter-spacing:.06em; }
+  .case-body { padding:24px 32px; flex:1; display:flex; flex-direction:column; gap:20px; }
+  .case-block-label {
+    font-family:var(--font-mono); font-size:.62rem; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--white-20); margin-bottom:6px;
+  }
+  .case-problem { font-size:.88rem; color:var(--white-40); line-height:1.7; }
+  .case-impacts { display:flex; flex-direction:column; gap:6px; }
+  .case-impact-item {
+    display:flex; align-items:flex-start; gap:10px;
+    font-size:.84rem; color:var(--white-40); line-height:1.5;
+  }
+  .case-impact-item::before { content:'↗'; color:var(--white-20); font-size:.72rem; margin-top:2px; flex-shrink:0; }
+  .case-footer { padding:20px 32px; border-top:1px solid var(--border-light); display:flex; flex-wrap:wrap; gap:6px; }
+  .case-tag { font-size:.68rem; padding:3px 10px; background:var(--white-10); border:1px solid var(--border-light); border-radius:100px; color:var(--white-40); }
+  @media (max-width:900px) { .cases-grid { grid-template-columns:1fr; } }
+
+  /* RESPONSIVE */
+  @media (max-width:900px) {
+    nav { padding:16px 24px; } nav.scrolled { padding:12px 24px; }
+    .container { padding:0 24px; }
+    .hero-inner { grid-template-columns:1fr; }
+    .hero-avatar-wrap { order:-1; }
+    .about-grid, .stack-grid { grid-template-columns:1fr 1fr; }
+    .certs-grid { grid-template-columns:repeat(2,1fr); }
+    .edu-grid { grid-template-columns:1fr 1fr; }
+    .projects-grid { grid-template-columns:1fr; }
+    .project-card.featured { grid-column:span 1; }
+    .timeline-line { display:none; }
+    .timeline-item { grid-template-columns:1fr; }
+    .timeline-item .timeline-content,.timeline-item .timeline-empty,.timeline-dot-col { grid-column:1 !important; }
+    .timeline-dot-col { display:none; }
+    .timeline-item .timeline-content { text-align:left !important; padding:0 !important; }
+    .timeline-item .timeline-tags { justify-content:flex-start !important; }
+    .cta-box { padding:48px 32px; }
+    .cta-bullets { flex-direction:column; gap:24px; }
+    footer { flex-direction:column; gap:20px; text-align:center; }
+  }
+  @media (max-width:600px) {
+    .about-grid,.stack-grid,.certs-grid,.edu-grid { grid-template-columns:1fr; }
+    .nav-links { display:none; }
+    .hero-name { font-size:3.5rem; }
+    .hero-actions,.cta-actions { flex-direction:column; align-items:flex-start; }
+    .cta-actions { align-items:center; }
+  }
+</style>
 </head>
-
 <body>
 
-  <!-- ======= Header ======= -->
-  <header id="header" class="fixed-top d-flex align-items-center">
-    <div class="container d-flex align-items-center">
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
 
-      <div class="logo mr-auto">
-        <!-- Uncomment below if you prefer to use an image logo -->
-        <a href="index.html"><img src="assets/img/logo_preta.png" alt="" class="img-fluid"></a>
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#" class="nav-logo">Warley Silva</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#timeline">Journey</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#cases">Cases</a></li>
+    <li><a href="#testimonials">Testimonials</a></li>
+    <li><a href="#mentorship" class="nav-cta">Connect</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-orb hero-bg-orb-1"></div>
+  <div class="hero-bg-orb hero-bg-orb-2"></div>
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="hero-badge"><span class="dot"></span>Available</div>
+        <h1 class="hero-name">Warley<br><em>Silva</em></h1>
+        <div class="hero-typewriter"><span id="typed-text"></span><span class="cursor-blink">_</span></div>
+        <p class="hero-desc">Lead Engineer with 10+ years building systems that matter. Now at the frontier of software engineering and artificial intelligence — architecting agents, RAG pipelines, and Copilot-grade experiences at enterprise scale.</p>
+        <div class="hero-actions">
+          <a href="#mentorship" class="btn-primary">Let's Talk</a>
+          <a href="https://www.linkedin.com/in/warley-silva" target="_blank" class="btn-ghost">LinkedIn</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item"><div class="stat-num">10+</div><div class="stat-label">Years of experience</div></div>
+          <div class="stat-item"><div class="stat-num">50+</div><div class="stat-label">Countries impacted</div></div>
+          <div class="stat-item"><div class="stat-num">∞</div><div class="stat-label">Curiosity</div></div>
+        </div>
       </div>
-
-      <nav class="nav-menu d-none d-lg-block">
-        <ul>
-          <li class="active"><a href="#header">INÍCIO</a></li>
-          <li><a href="#clients">INQUILINOS</a></li>
-          <li><a href="#about">IMOBILIÁRIAS</a></li>
-          <li><a href="#services">RECOMENDAÇÕES</a></li>
-          <li><a href="#app">DÚVIDAS</a></li>
-
-          <li class="get-started"><a href="#">LOGIN</a></li>
-        </ul>
-      </nav><!-- .nav-menu -->
-
-    </div>
-  </header><!-- End Header -->
-
-  <!-- ======= Hero Section ======= -->
-  <section id="hero" class="d-flex align-items-center banner">
-
-    <div class="container">
-      <div class="row">
-        <div class="col" style="margin-right: 10%;">
-          <div class="home_slider_content" data-animation-in="fadeIn" data-animation-out="animate-out fadeOut">
-            <h1 class="cabecalhoh1" style="color: #85C226;">FIANÇA DIGITAL</h1>
-            <div class="home_slider_subtitle">Seu Fiador na Palma da Mão!</div>
-            <hr class="divisor">
-            <div class="home_slider_text">A INFINITY LOQ BRASIL é a solução para alugar seu imóvel sem se preocupar com fiador. O processo é 100% digital e facilita a vida de TODOS!
-            </div>
+      <div class="hero-avatar-wrap">
+        <div class="avatar-container">
+          <div class="avatar-ring"></div>
+          <div class="avatar-glass">
+            <svg class="avatar-svg" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="90" cy="65" r="32" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+              <circle cx="90" cy="65" r="20" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+              <path d="M30 150 Q90 110 150 150" stroke="rgba(255,255,255,0.2)" stroke-width="1" fill="none"/>
+              <path d="M50 150 Q90 118 130 150" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+              <line x1="90" y1="33" x2="90" y2="10" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+              <line x1="90" y1="10" x2="110" y2="10" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+              <circle cx="110" cy="10" r="2" fill="rgba(255,255,255,0.3)"/>
+              <line x1="122" y1="65" x2="155" y2="65" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+              <circle cx="155" cy="65" r="2" fill="rgba(255,255,255,0.3)"/>
+              <line x1="58" y1="65" x2="25" y2="65" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+              <circle cx="25" cy="65" r="2" fill="rgba(255,255,255,0.3)"/>
+              <circle cx="90" cy="65" r="3" fill="rgba(255,255,255,0.6)"/>
+              <circle cx="60" cy="120" r="2" fill="rgba(255,255,255,0.2)"/>
+              <circle cx="90" cy="115" r="2" fill="rgba(255,255,255,0.2)"/>
+              <circle cx="120" cy="120" r="2" fill="rgba(255,255,255,0.2)"/>
+              <line x1="90" y1="115" x2="60" y2="120" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+              <line x1="90" y1="115" x2="120" y2="120" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+              <line x1="90" y1="97" x2="90" y2="115" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+            </svg>
           </div>
-        </div>
-        <div class="col" style="margin-bottom: -40%; margin-left: 0%;">
-          <div class="home_slider_content" data-animation-in="fadeIn" data-animation-out="animate-out fadeOut">
-            <img src="./assets/img/Finger.png" class="banner-imagem">
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </section><!-- End Hero -->
-
-  <main id="main">
-
-    <!-- ======= Clients Section ======= -->
-    <section id="clients" class="clients">
-      <div class="container">
-        <div>
-            <h1 class="titulogarantia">GARANTIAS PARA <text class="titulogarantia2">INQUILINOS </text></h1>
-        </div>
-        <div class="secaogarantia">
-            <div class="row">
-                <div class="col">
-                    <h2 class="subtitulogarantia">VANTAGENS ESPECIAIS!</h2>
-                    <ul>
-                        <li class="itemgarantia">Garantia Ágil e Simples</li>
-                        <li class="itemgarantia">Clube de descontos com cobertura nacional</li>
-                        <li class="itemgarantia">Pagamento mensal durante o contrato de locação, sem juros
-                        </li>
-                        <li class="itemgarantia">Dispensa a necessidade de ter um fiador tradicional</li>
-                    </ul>
-                    <button type="button" class="btn botaogarantia">SIM, EU QUERO A FIANÇA DIGITAL</button>
-                </div>
-                <div class="col">
-                    <img src="/assets/img/Grupo 23.png" class="inquilinoimagem">
-                </div>
-            </div>
-        </div>
-      </div>
-    </section><!-- End Clients Section -->
-
-    <!-- ======= About Us Section ======= -->
-    <section id="about" class="about bannerimobiliaria">
-      <div class="container">
-        <div>
-          <h1 class="tituloimobiliaria">GARANTIAS PARA <text class="tituloimobiliaria2">IMOBILIÁRIAS</text></h1>
-        </div>
-        <div class="secaoimobiliaria">
-          <div class="row">
-          <div class="col">
-            <h2 class="subtituloimobiliaria">VANTAGENS ESPECIAIS!</h2>
-            <ul>
-                <li class="itemimobiliaria">Agilidade na Contratação</li>
-                <li class="itemimobiliaria">Garantia Completa</li>
-                <li class="itemimobiliaria">Maior conversão de captações em contratos efetivos</li>
-                <li class="itemimobiliaria">Valor agregado aos serviços prestados</li>
-                <li class="itemimobiliaria">Sem preocupação com a inadimplência</li>
-                <li class="itemimobiliaria">Aumento da carteira de locações</li>
-            </ul>
-            <button type="button" class="btn botaoimobiliaria">SIM, EU QUERO A FIANÇA DIGITAL</button>
-        </div>
-        <div class="col">
-            <img src="./assets/img/Grupo 34.png" class="imobiliariaimagem">
-        </div>
-    </div>
-      </div>
-    </section><!-- End About Us Section -->
-
-    <!-- ======= Services Section ======= -->
-    <section id="services" class="services">
-      <div class="container">
-
-        <div>
-          <h1 class="titulogarantia">IMOBILIÁRIAS SATISFEITAS</h1>
-        </div>
-      <div>
-          <h2 class="subtitulorecomendacao">Olha só o que nossos parceiros estão dizendo!</h2>
-      </div>
-      <div class="container-fluid">
-
-          <!--Carousel Begins -->
-          <div class="carousel slide" id="my-carousel" data-ride="carousel" >
-
-              <!--Carousel Indicators Begins-->
-              <ol class="carousel-indicators">
-                  <li data-target="#my-carousel" data-slide-to="0"></li>
-                  <li data-target="#my-carousel" data-slide-to="1" class="active"></li>
-                  <li data-target="#my-carousel" data-slide-to="2"></li>
-              </ol>
-
-              <!--Carousel Inner -->
-              <div class="carousel-inner">
-
-                  <!--Slide 1-->
-                  <div class="carousel-item text-center" style="background-color:  white;">
-                      <div class="img-box  m-auto">
-                      </div>
-                      <h5 class="py-1 my-1"><strong class="nomerecomendacao">Barney Stinsons</strong></h5>
-                      <p class="itemdepoimento">“Ajuda com uma taxa ótima e competitiva do mercado. Atentos a necessidade da imobiliária e prontos na ajuda e nos questionamentos visando solução.”</p>
-                  </div>
-
-                  <!--Slide2 (Active)-->
-                  <div class="carousel-item text-center" style="background-color:  white;">
-                      <div class="img-box m-auto">
-                      </div>
-                      <h5 class="py-1 my-1"><strong class="nomerecomendacao">Carlos Oliveira</strong></h5>
-                      <p class="py-3 itemdepoimento">“Ajuda com uma taxa ótima e competitiva do mercado. Atentos a necessidade da imobiliária e prontos na ajuda e nos questionamentos visando solução.”</p>
-                  </div>
-
-                  <!--Slide 3-->
-                  <div class="carousel-item text-center active" style="background-color:  white;">
-                      <div class="img-box m-auto">
-                          <img class=>
-                      </div>
-                      <h5 class="py-1 my-1"><strong class="nomerecomendacao">ELIENAY, Imobiliária Lopes - Contagem - MG
-                      </strong></h5>
-                      <p class="py-3 itemdepoimento">“Ajuda com uma taxa ótima e competitiva do mercado. Atentos a necessidade da imobiliária e prontos na ajuda e nos questionamentos visando solução.”</p>
-                  </div>
-              </div>
-              <!--Carousel Inner -->
-
-              <!--Carousel Controls -->
-              <a href="#my-carousel" class="carousel-control-prev" role="button" data-slide="prev">
-                  <span class="carousel-control-prev-icon" arial-hidden="true"></span>
-                  <span class="sr-only">Previous</span>
-              </a>
-
-              <a href="#my-carousel" class="carousel-control-next" role="button" data-slide="next">
-                  <span class="carousel-control-next-icon" arial-hidden="true"></span>
-                  <span class="sr-only">Next</span>
-              </a>
-          </div>
-      </div>
-      
-       </div><!-- /.container -->
-    </section><!-- End Services Section -->
-
-    <!-- ======= App Section ======= -->
-    <section id="app" class="services fundofaq">
-      <div class="container">
-
-        <div style="background-color: #85C226; height: 110px; padding-top: 10px; width: 200%; margin-left: -50%;">
-          <h1 class="titulofaq" >PERGUNTAS FREQUENTES</h1>
-        </div>
-
-        <div class="row" style="margin-top: 40px;">         
-            <div class="col">
-              <p>
-                <button class="btn botaotopfaq">
-                  A INFINITY LOQ BRASIL
-                </button>
-              </p>
-              <!-- ----------------- Pergunta 1-----------------  -->
-            <p>
-              <button class="btn botaofaq" type="button" data-toggle="collapse" data-target="#pergunta1" aria-expanded="false" aria-controls="collapseExample">
-                O que é a Infinity?
-              </button>
-            </p>
-            <div class="collapse" id="pergunta1">
-              <div class="card card-body">
-                A INFINITY é uma plataforma associativa digital que coordena a força coletiva de seus membros com o objetivo de oferecer uma alternativa inteligente, simples e acessível ao ultrapassado e burocrático fiador de imóveis. </p>
-                A INFINITY trabalha para atender as necessidades dos membros, oferecendo facilidades para todos os envolvidos no processo de locação de imóveis.
-              </div>
-            </div>
-            <!-- ----------------- Pergunta 2-----------------  -->
-            <p>
-              <button class="btn botaofaq" type="button" data-toggle="collapse" data-target="#pergunta2" aria-expanded="false" aria-controls="collapseExample">
-                Por que a Infinity surgiu?
-              </button>
-            </p>
-            <div class="collapse" id="pergunta2">
-              <div class="card card-body">
-                A INFINITY  surgiu para entregar benefícios reais a preços justos para seus membros e solucionar um problema recorrente na locação de imóveis.
-                </p>
-                Com a Fiança Digital os membros não passam pelo constrangimento de ter que pedir a uma pessoa para ser seu fiador, nem enfrenta toda burocracia deste processo.
-                </p>
-                Com poucos cliques é possível usufruir e aproveitar todos os benefícios da INFINITY .
-              </div>
-            </div>
-            <!-- ----------------- Pergunta 3-----------------  -->
-            <p>
-              <button class="btn botaofaq" type="button" data-toggle="collapse" data-target="#pergunta3" aria-expanded="false" aria-controls="collapseExample">
-                Qual é a finalidade da Infinity?
-              </button>
-            </p>
-            <div class="collapse" id="pergunta3">
-              <div class="card card-body">
-                A INFINITY tem como objetivo oferecer a seus membros benefícios que garantam o aumento da qualidade de vida e das facilidades relacionadas a: convênios, assistência em manutenção de imóveis, orientações contratuais e condominiais, suporte jurídico e a estipulação de apólices coletivas de seguros.
-                </p>
-                Para alcançar tais objetivos, a INFINITY trabalha na criação de novos mecanismos e tecnologias para facilitar a vida de seus membros, buscando obter cada vez mais benefícios.
-                </p>
-                Acreditamos no diálogo e na negociação. Na qualidade de vida através de facilidades para alugar um imóvel. Acreditamos que oferecer uma alternativa transformadora à figura do fiador tradicional é ajudar pessoas a realizarem seus sonhos.
-              </div>
-            </div>
-            <!-- ----------------- Pergunta 4-----------------  -->
-            <p>
-              <button class="btn botaofaq" type="button" data-toggle="collapse" data-target="#pergunta4" aria-expanded="false" aria-controls="collapseExample">
-                Quais benefícios a Infinity oferece?
-              </button>
-            </p>
-            <div class="collapse" id="pergunta4">
-              <div class="card card-body">
-                Associando-se à INFINITY , você tem direito ao clube de benefícios exclusivo e poderá solicitar diversos outros benefícios adicionais, com um pequeno acréscimo em sua contribuição mensal.
-                </p>
-                Assistência Jurídica para a locação de seu imóvel
-                </p>
-                Assistência Funeral
-                </p>
-                Assistência PET
-                </p>
-                Assistência Residencial
-                </p>
-                Fiança Digital
-                </p>
-                Rede de desconto em farmácias (já incluída no Plano Básico)
-              </p>
-                Seguro Residencial Completo
-              </div>
-            </div>
-            <!-- ----------------- Pergunta 5-----------------  -->
-            <p>
-              <button class="btn botaofaq" type="button" data-toggle="collapse" data-target="#pergunta5" aria-expanded="false" aria-controls="collapseExample">
-                A Infinity é uma espécie de fiador profissional?
-              </button>
-            </p>
-            <div class="collapse" id="pergunta5">
-              <div class="card card-body">
-                Não. A INFINITY é uma plataforma digital que coordena a força coletiva de seus membros e conta com um planejamento sólido, eficiente e inteligente, que garante o pagamento das inadimplências tão logo elas ocorram.
-                <p></p>
-                Sistema INFINITY de FIANÇA DIGITAL agiliza a contratação e torna mais fácil a vidas dos Locatários, Imobiliárias e Proprietários.
-              </div>
-            </div>
-            <!-- ----------------- Pergunta 6-----------------  -->
-            <p>
-              <button class="btn botaofaq" type="button" data-toggle="collapse" data-target="#pergunta6" aria-expanded="false" aria-controls="collapseExample">
-                Por que é tão difícil encontrar um fiador (imóvel)?
-              </button>
-            </p>
-            <div class="collapse" id="pergunta6">
-              <div class="card card-body">
-                O Fiador suporta uma série de responsabilidades em relação ao contrato de locação. A inadimplência pode gerar prejuízos e desgastes a todos os envolvidos, como:
-                </p>
-                1. Locatário que pode ser despejado.
-              </p>
-                2. Fiador que pode ter seus bens penhorados.
-              </p>
-                3. Tanto Fiador quanto Locatário podem ter seus nomes inscritos nos cadastros de restrição de crédito (SPC, SERASA).
-              </p>
-                4. Proprietário que não receberá os aluguéis.
-              </p>
-                5. Imobiliária que não receberá sua taxa de administração.
-              </p>
-                POR ISSO NINGUÉM QUER SER FIADOR DE NINGUÉM E TODOS QUEREM EVITAR ESSES CONSTRANGIMENTOS.
-                Nesse cenário, a  INFINITY  supera todos esses problemas e inconvenientes e traz liberdade e independência aos envolvidos. A INFINITY reinventou a Fiança Locatícia e deu o nome de Fiança Digital.
-              </p>
-                A Fiança Digital é uma Fiança Inteligente!
-              </div>
-            </div>
-            <!-- ----------------- Pergunta 7-----------------  -->
-            <p>
-              <button class="btn botaofaq" type="button" data-toggle="collapse" data-target="#pergunta7" aria-expanded="false" aria-controls="collapseExample">
-                A Infinity oferece a possibilidade de aluguel sem fiador? (tradicional)
-              </button>
-            </p>
-            <div class="collapse" id="pergunta7">
-              <div class="card card-body">
-                Sim. A FIANÇA DIGITAL é estruturada num modelo inteligente, eficiente e vantajoso para todos. Conseguimos superar os problemas do fiador tradicional, com um custo extremamente competitivo! Se você está buscando uma fiança para seu imóvel, vai de INFINITY!
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <p>
-              <button class="btn botaotopfaq">
-                Quais são os planos da fiança digital?
-              </button>
-            </p>
-              <!-- ----------------- Pergunta 8-----------------  -->
-              <p>
-                <button class="btn botaofaq" type="button" data-toggle="collapse" data-target="#pergunta8" aria-expanded="false" aria-controls="collapseExample">
-                  Plano Ouro
-                </button>
-              </p>
-              <div class="collapse" id="pergunta8">
-                <div class="card card-body">
-                  <ul>
-                    <li>Aluguel</li>
-                    <li>Encargos Legais</li>
-                    <li>Multas</li>
-                    <li>Danos ao imóvel</li>
-                    <li>Pintura Interna</li>
-                    <li>Limite de garantia de 12 aluguéis</li>
-                    <li>Condomínio + IPTU</li>
-                    <li>Moratórias + Rescisórias</li>
-                    <li>Até 3x o valor do aluguel</li>
-                  </ul>
-                </div>
-              </div>
-              <!-- ----------------- Pergunta 9-----------------  -->
-              <p>
-                <button class="btn botaofaq" type="button" data-toggle="collapse" data-target="#pergunta9" aria-expanded="false" aria-controls="collapseExample">
-                  Plano Prata
-                </button>
-              </p>
-              <div class="collapse" id="pergunta9">
-                <div class="card card-body">
-                  <ul>
-                    <li>Aluguel</li>
-                    <li>Encargos Legais</li>
-                    <li>Multas</li>
-                    <li>Danos ao imóvel</li>
-                    <li>Pintura Interna</li>
-                    <li>Limite de garantia de 08 aluguéis</li>
-                    <li>Condomínio + IPTU</li>
-                    <li>Moratórias + Rescisórias</li>
-                    <li>Até 3x o valor do aluguel</li>
-                  </ul>
-                </div>
-              </div>
-              <!-- ----------------- Pergunta 10-----------------  -->
-              <p>
-                <button class="btn botaofaq" type="button" data-toggle="collapse" data-target="#pergunta10" aria-expanded="false" aria-controls="collapseExample">
-                  Plano básico
-                </button>
-              </p>
-              <div class="collapse" id="pergunta10">
-                <div class="card card-body">
-                  <ul>
-                    <li>Aluguel</li>
-                    <li>Encargos Legais</li>
-                    <li>Multas</li>
-                    <li>Danos ao imóvel</li>
-                    <li>Pintura Interna</li>
-                    <li>Limite de garantia de 06 aluguéis</li>
-                    <li>Condomínio + IPTU</li>
-                    <li>Moratórias + Rescisórias</li>
-                    <li>Até 3x o valor do aluguel</li>
-                  </ul>
-                </div>
-              </div>
-              <!-- ---------------------------------------------------------------- row 2 col 2 faq ------------------------------------------------------------- -->
-              <p>
-                <button class="btn botaotopfaq">
-                  Quais documentos devo apresentar?
-                </button>
-              </p>
-                <!-- ----------------- Pergunta 8-----------------  -->
-                <p>
-                  <button class="btn botaofaq" type="button" data-toggle="collapse" data-target="#pergunta11" aria-expanded="false" aria-controls="collapseExample">
-                    Locação em nome de pessoa física
-                  </button>
-                </p>
-                <div class="collapse" id="pergunta11">
-                  <div class="card card-body">
-                    CPF e 3 últimos Comprovantes de Renda
-                  </div>
-                </div>
-                <!-- ----------------- Pergunta 9-----------------  -->
-                <p>
-                  <button class="btn botaofaq" type="button" data-toggle="collapse" data-target="#pergunta12" aria-expanded="false" aria-controls="collapseExample">
-                    Locação em nome de pessoa jurídica
-                  </button>
-                </p>
-                <div class="collapse" id="pergunta12">
-                  <div class="card card-body">
-                    Carteira de identidade e CPF dos sócios;
-                  </p>
-                    Contrato social e última alteração contratual;
-                  </p>
-                    Relação de faturamento mensal dos últimos 12 (doze) meses;
-                  </p>
-                    Declaração de Imposto de Renda da Pessoa Jurídica na íntegra (dos 2 últimos anos)
-                  </div>
-                </div>
-                <!-- ----------------- Pergunta 10-----------------  -->
-                <p>
-                  <button class="btn botaofaq" type="button" data-toggle="collapse" data-target="#pergunta13" aria-expanded="false" aria-controls="collapseExample">
-                    Qual é o prazo para análise dos documentos?
-                  </button>
-                </p>
-                <div class="collapse" id="pergunta13">
-                  <div class="card card-body">
-                    Os documentos serão analisados de forma imediata após o upload completo (carregamento) dos documentos no SIFF (Sistema INFINITY de Fiança Fácil).
-                  </p>
-                  <p style="font-size: small;">
-                   **Caso os documentos apresentados estejam ilegíveis, não sejam os solicitados ou não sejam confiáveis, o prazo é reiniciado após a apresentação correta dos mesmos.
-                  </p>
-                  </div>
-                </div>
-          </div>
-        </div>
-      </div>
-        </div><!-- /.container -->
-
-    </section><!-- End Services Section -->
-
-
-  </main><!-- End #main -->
-
-  <!-- ======= Footer ======= -->
-  <footer id="footer">
-    <div class="container">
-      <div class="row d-flex align-items-center">
-        <div class="col-lg-6 text-lg-left text-center">
-          <div class="logo mr-auto">
-            <!-- Uncomment below if you prefer to use an image logo -->
-            <a href="index.html"><img src="assets/img/logo_branca.png" alt="" class="img-fluid"></a>
-          </div>
-          
-        </div>
-        <div class="col-lg-6">
-          <p class="linkcontato">CONTATOS</p>
-          <p class="itemcontato"><i class="icofont-phone"></i>(00) 0000-0000</p>
-          <p class="itemcontato"><i class="icofont-email"></i>email@email.com</p>
-          <p class="linkcontato">ACOMPANHE NOSSAS NOVIDADES</p>
-          <i class="icofont-linkedin socialcontato"></i>
-          <i class="icofont-facebook socialcontato"></i>
-          <i class="icofont-instagram socialcontato"></i>
         </div>
       </div>
     </div>
-  </footer><!-- End Footer -->
+  </div>
+</section>
 
-  <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="section-label">01 — About</div>
+    <h2 class="section-title">An engineer who<br>thinks like <em>product</em></h2>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>I'm a software engineer with <strong>10+ years of experience</strong>, with a career that started in technical support, moved through enterprise .NET systems, entrepreneurship, and has reached the most advanced frontier of what we're living today: <strong>LLM agents running in real production</strong>.</p>
+        <p>Today I lead as <strong>Tech Lead</strong> the People (HR) squad on AB InBev's Stellar project, via Thoughtworks — building LLM agent systems with CrewAI, RAG pipelines, and integrations with ServiceNow, Workday, and WhatsApp. Projects that replace manual processes with scalable intelligence.</p>
+        <p>Rated as <strong>"Consistently Exceeded Expectations"</strong> in Thoughtworks' 2025 cycle, with moments described by senior management as <strong>approaching Principal-level influence</strong>. It's not just code — it's the ability to navigate ambiguity, build stakeholder trust, and elevate the team around me.</p>
+      </div>
+      <div class="about-dna reveal">
+        <div class="dna-title">Technical DNA</div>
+        <div class="dna-tags">
+          <span class="tag">AI Agents / CrewAI</span>
+          <span class="tag">RAG & Vector DBs</span>
+          <span class="tag">Semantic Kernel</span>
+          <span class="tag">Azure AI Studio</span>
+          <span class="tag">.NET / C#</span>
+          <span class="tag">React & React Native</span>
+          <span class="tag">Azure & AWS</span>
+          <span class="tag">Clean Architecture</span>
+          <span class="tag">DDD</span>
+          <span class="tag">LLM Engineering</span>
+          <span class="tag">Tech Leadership</span>
+          <span class="tag">Mentorship</span>
+        </div>
+        <div class="about-card">
+          <div class="about-card-title">How people see me</div>
+          <p>"Warley combines technical brilliance with high emotional intelligence and business acumen. He navigates ambiguity, leads critical deliveries, and builds deep trust with the client."</p>
+          <p style="margin-top:12px;font-size:.78rem;color:rgba(255,255,255,.2);font-style:normal;letter-spacing:.05em;">— Nuno Tavares, Senior Manager · Thoughtworks</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/jquery/jquery.min.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/jquery.easing/jquery.easing.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-  <script src="assets/vendor/waypoints/jquery.waypoints.min.js"></script>
-  <script src="assets/vendor/counterup/counterup.min.js"></script>
-  <script src="assets/vendor/owl.carousel/owl.carousel.min.js"></script>
-  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script src="assets/vendor/venobox/venobox.min.js"></script>
-  <script src="assets/vendor/aos/aos.js"></script>
+<!-- TIMELINE -->
+<section id="timeline">
+  <div class="container">
+    <div class="section-label">02 — Journey</div>
+    <h2 class="section-title">A decade of<br><em>continuous growth</em></h2>
+    <div class="timeline-wrap">
+      <div class="timeline-line"></div>
 
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <div class="timeline-card">
+            <div class="timeline-period">APR 2025 — PRESENT</div>
+            <div class="timeline-role">Lead Developer &amp; Tech Lead</div>
+            <div class="timeline-company">Thoughtworks · AB InBev (Stellar)</div>
+            <div class="timeline-desc">Leading the People (HR) squad on AB InBev's largest AI enterprise project — building LLM agents, RAG pipelines, and Copilot experiences that replace manual HR processes with scalable AI. Pioneer of the CrewAI/Python architecture and recognized as technical reference across the program.</div>
+            <div class="timeline-tags">
+              <span class="tl-tag">CrewAI</span><span class="tl-tag">Semantic Kernel</span>
+              <span class="tl-tag">Azure AI</span><span class="tl-tag">RAG</span>
+              <span class="tl-tag">ServiceNow</span><span class="tl-tag">Workday</span>
+            </div>
+            <a href="https://www.linkedin.com/in/warley-silva/details/experience/" target="_blank" class="timeline-link">View on LinkedIn ↗</a>
+          </div>
+        </div>
+        <div class="timeline-dot-col"><div class="timeline-dot"></div></div>
+        <div class="timeline-empty"></div>
+      </div>
 
+      <div class="timeline-item">
+        <div class="timeline-empty"></div>
+        <div class="timeline-dot-col"><div class="timeline-dot"></div></div>
+        <div class="timeline-content">
+          <div class="timeline-card">
+            <div class="timeline-period">OCT 2023 — APR 2025</div>
+            <div class="timeline-role">Lead Software Engineer</div>
+            <div class="timeline-company">who.</div>
+            <div class="timeline-desc">Cloud-first architecture on AWS with focus on high availability and cost efficiency. FinOps strategies, AI-driven fraud prevention in financial applications, and leadership of a high-performing engineering team.</div>
+            <div class="timeline-tags">
+              <span class="tl-tag">AWS</span><span class="tl-tag">.NET Core</span>
+              <span class="tl-tag">React Native</span><span class="tl-tag">FinOps</span>
+              <span class="tl-tag">ECS / EKS</span>
+            </div>
+            <a href="https://www.linkedin.com/in/warley-silva/details/experience/" target="_blank" class="timeline-link">View on LinkedIn ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <div class="timeline-card">
+            <div class="timeline-period">JAN 2022 — SEP 2023</div>
+            <div class="timeline-role">Tech Lead / PM / Full Stack</div>
+            <div class="timeline-company">BuiltCode – The Cognitive Company</div>
+            <div class="timeline-desc">Technical leadership of a multidisciplinary squad, product management, and full-stack development. Implemented Azure DevOps and CI/CD pipelines to accelerate delivery cycles.</div>
+            <div class="timeline-tags">
+              <span class="tl-tag">.NET Core</span><span class="tl-tag">React Native</span>
+              <span class="tl-tag">Angular</span><span class="tl-tag">Azure DevOps</span>
+              <span class="tl-tag">PostgreSQL</span>
+            </div>
+            <a href="https://www.linkedin.com/in/warley-silva/details/experience/" target="_blank" class="timeline-link">View on LinkedIn ↗</a>
+          </div>
+        </div>
+        <div class="timeline-dot-col"><div class="timeline-dot"></div></div>
+        <div class="timeline-empty"></div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-empty"></div>
+        <div class="timeline-dot-col"><div class="timeline-dot"></div></div>
+        <div class="timeline-content">
+          <div class="timeline-card">
+            <div class="timeline-period">JUN 2019 — APR 2020</div>
+            <div class="timeline-role">Entrepreneur</div>
+            <div class="timeline-company">Independent</div>
+            <div class="timeline-desc">Development and delivery of custom software solutions for multiple companies. End-to-end management of the full software lifecycle — from requirements gathering to deployment.</div>
+            <div class="timeline-tags">
+              <span class="tl-tag">.NET Core</span><span class="tl-tag">React</span>
+              <span class="tl-tag">React Native</span><span class="tl-tag">Cloud</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <div class="timeline-card">
+            <div class="timeline-period">APR 2016 — MAY 2019</div>
+            <div class="timeline-role">IT Analyst</div>
+            <div class="timeline-company">Transpedrosa SA</div>
+            <div class="timeline-desc">Development and maintenance of enterprise software with .NET and C#. SQL Server optimization and automation initiatives that significantly reduced operational workload.</div>
+            <div class="timeline-tags">
+              <span class="tl-tag">.NET</span><span class="tl-tag">C#</span><span class="tl-tag">SQL Server</span>
+            </div>
+          </div>
+        </div>
+        <div class="timeline-dot-col"><div class="timeline-dot"></div></div>
+        <div class="timeline-empty"></div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-empty"></div>
+        <div class="timeline-dot-col"><div class="timeline-dot"></div></div>
+        <div class="timeline-content">
+          <div class="timeline-card">
+            <div class="timeline-period">OCT 2014 — APR 2016</div>
+            <div class="timeline-role">IT Trainee</div>
+            <div class="timeline-company">MAPAL do Brasil</div>
+            <div class="timeline-desc">First steps in software development — IT infrastructure support, internal automation scripts, and maintenance of enterprise systems. Where it all began.</div>
+            <div class="timeline-tags">
+              <span class="tl-tag">Microsoft .NET</span><span class="tl-tag">SQL Server</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- STACK -->
+<section id="stack">
+  <div class="container">
+    <div class="section-label">03 — Stack</div>
+    <h2 class="section-title">What I use to<br><em>build real things</em></h2>
+    <div class="stack-grid">
+      <div class="stack-group">
+        <div class="stack-group-icon">🤖</div>
+        <div class="stack-group-name">AI & Agents</div>
+        <div class="stack-items">
+          <span class="stack-item">CrewAI</span><span class="stack-item">Semantic Kernel</span>
+          <span class="stack-item">Azure AI Studio</span><span class="stack-item">LLM Agents</span>
+          <span class="stack-item">RAG Pipelines</span><span class="stack-item">Vector DBs</span>
+          <span class="stack-item">pgvector</span><span class="stack-item">OpenAI API</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <div class="stack-group-icon">⚙️</div>
+        <div class="stack-group-name">Backend & Cloud</div>
+        <div class="stack-items">
+          <span class="stack-item">.NET / C#</span><span class="stack-item">ASP.NET Core</span>
+          <span class="stack-item">Azure</span><span class="stack-item">AWS</span>
+          <span class="stack-item">Microservices</span><span class="stack-item">Clean Arch</span>
+          <span class="stack-item">DDD</span><span class="stack-item">REST APIs</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <div class="stack-group-icon">🎨</div>
+        <div class="stack-group-name">Frontend & Mobile</div>
+        <div class="stack-items">
+          <span class="stack-item">React</span><span class="stack-item">React Native</span>
+          <span class="stack-item">Expo</span><span class="stack-item">TypeScript</span>
+          <span class="stack-item">Angular</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <div class="stack-group-icon">🔗</div>
+        <div class="stack-group-name">Enterprise Integrations</div>
+        <div class="stack-items">
+          <span class="stack-item">ServiceNow</span><span class="stack-item">Workday</span>
+          <span class="stack-item">Twilio</span><span class="stack-item">Blip</span>
+          <span class="stack-item">WhatsApp API</span><span class="stack-item">MS Copilot</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <div class="stack-group-icon">🗄️</div>
+        <div class="stack-group-name">Data & DevOps</div>
+        <div class="stack-items">
+          <span class="stack-item">PostgreSQL</span><span class="stack-item">SQL Server</span>
+          <span class="stack-item">RabbitMQ</span><span class="stack-item">Azure DevOps</span>
+          <span class="stack-item">Docker</span><span class="stack-item">CI/CD</span>
+          <span class="stack-item">ECS / EKS</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <div class="stack-group-icon">🎯</div>
+        <div class="stack-group-name">Leadership & Craft</div>
+        <div class="stack-items">
+          <span class="stack-item">Tech Leadership</span><span class="stack-item">Mentorship</span>
+          <span class="stack-item">Systems Thinking</span><span class="stack-item">Stakeholder Mgmt</span>
+          <span class="stack-item">Documentation</span><span class="stack-item">Agile</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <div class="section-label">04 — Projects</div>
+    <h2 class="section-title">Things I've<br><em>built and led</em></h2>
+    <div class="projects-grid">
+
+      <div class="project-card featured">
+        <div class="project-num">001 — ENTERPRISE AI</div>
+        <div class="project-name">Stellar — AB InBev</div>
+        <div class="project-role">Tech Lead · People (HR) Squad · via Thoughtworks</div>
+        <div class="project-desc">AB InBev's largest AI enterprise project: an ecosystem of intelligent chatbots replacing manual HR processes with LLM agents at global scale. Leading the People squad, I delivered the Payslip and Worker Letter use cases for the Middle Americas go-live — visible to global VPs. Pioneer of the CrewAI/Python architecture within the project, and structured the onboarding documentation that became the reference standard for both Thoughtworks and client teams.</div>
+        <div class="project-tags">
+          <span class="p-tag">CrewAI</span><span class="p-tag">Semantic Kernel</span>
+          <span class="p-tag">Azure AI Studio</span><span class="p-tag">RAG</span>
+          <span class="p-tag">LLM Agents</span><span class="p-tag">ServiceNow</span>
+          <span class="p-tag">Workday</span><span class="p-tag">.NET</span>
+          <span class="p-tag">Python</span><span class="p-tag">WhatsApp/Blip</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-num">002 — HEALTHTECH / EDTECH</div>
+        <div class="project-name">Trek</div>
+        <div class="project-role">Early Developer · Health &amp; Learning Startup</div>
+        <div class="project-desc">Learning journey platform being deployed at Hospital Albert Einstein to support patient recovery. One of the first developers of the startup — contributing to its mobile app (React Native/Expo), web frontend, .NET backend, and semantic search via pgvector.</div>
+        <div class="project-tags">
+          <span class="p-tag">React Native</span><span class="p-tag">Expo</span>
+          <span class="p-tag">React</span><span class="p-tag">.NET</span>
+          <span class="p-tag">PostgreSQL</span><span class="p-tag">pgvector</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-num">003 — AGENCY</div>
+        <div class="project-name">90Crafters</div>
+        <div class="project-role">Co-founder &amp; Consultant</div>
+        <div class="project-desc">Technology, automation, and digital marketing agency. Building and advising on digital solutions for clients across different segments — bridging product, tech, and marketing.</div>
+        <div class="project-tags">
+          <span class="p-tag">Automation</span><span class="p-tag">Full-Stack</span>
+          <span class="p-tag">Digital Marketing</span><span class="p-tag">Consulting</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDIES -->
+<section id="cases">
+  <div class="container">
+    <div class="section-label">05 — Case Studies</div>
+    <h2 class="section-title">Operational impact<br><em>beyond the code</em></h2>
+    <div class="cases-grid">
+
+      <div class="case-card">
+        <div class="case-header">
+          <div class="case-industry">Corporate Ergonomics · 90Crafters</div>
+          <div class="case-name">Superativa</div>
+          <div class="case-role">E2E Developer · Operational Automation</div>
+        </div>
+        <div class="case-body">
+          <div>
+            <div class="case-block-label">The problem</div>
+            <div class="case-problem">An ergonomics operation fully dependent on manual processes for training sessions, reports, visits, and client management. Growth was being held back by the weight of repetitive administrative work.</div>
+          </div>
+          <div>
+            <div class="case-block-label">What we built</div>
+            <div class="case-problem">End-to-end system with automated report generation, dedicated access portals for clients and instructors, and centralized custom dashboards — replacing fragmented workflows with a single operational flow.</div>
+          </div>
+          <div>
+            <div class="case-block-label">Impact</div>
+            <div class="case-impacts">
+              <div class="case-impact-item">Higher service capacity with the same team size</div>
+              <div class="case-impact-item">Reduced cost in labor and field logistics</div>
+              <div class="case-impact-item">More predictable, standardized operation</div>
+              <div class="case-impact-item">Stronger brand trust and perceived client value</div>
+            </div>
+          </div>
+        </div>
+        <div class="case-footer">
+          <span class="case-tag">Process Automation</span>
+          <span class="case-tag">Report Generation</span>
+          <span class="case-tag">Client Portal</span>
+          <span class="case-tag">Full-Stack</span>
+        </div>
+      </div>
+
+      <div class="case-card">
+        <div class="case-header">
+          <div class="case-industry">Fleet Telematics · 90Crafters</div>
+          <div class="case-name">Fleetgame</div>
+          <div class="case-role">E2E Developer &amp; Co-founder · Data-to-Action Platform</div>
+        </div>
+        <div class="case-body">
+          <div>
+            <div class="case-block-label">The problem</div>
+            <div class="case-problem">Trackers and sensors produced data — but turning that raw signal into operational decisions was the bottleneck. Fleet management was reactive, not intelligence-driven.</div>
+          </div>
+          <div>
+            <div class="case-block-label">What we built</div>
+            <div class="case-problem">A control tower integrating all trackers: real-time fleet position, fuel consumption, telemetry KPIs, driver performance scores, and custom management reports — connecting raw data to daily governance.</div>
+          </div>
+          <div>
+            <div class="case-block-label">Impact</div>
+            <div class="case-impacts">
+              <div class="case-impact-item">Measurable reduction in fuel consumption and emissions</div>
+              <div class="case-impact-item">Driver recognition program built on performance data</div>
+              <div class="case-impact-item">Better trip planning and operational governance</div>
+              <div class="case-impact-item">Scaled operations with less effort, more consistency</div>
+            </div>
+          </div>
+        </div>
+        <div class="case-footer">
+          <span class="case-tag">Telematics</span>
+          <span class="case-tag">IoT Integration</span>
+          <span class="case-tag">Dashboards</span>
+          <span class="case-tag">Data-to-Action</span>
+          <span class="case-tag">Full-Stack</span>
+        </div>
+      </div>
+
+      <div class="case-card">
+        <div class="case-header">
+          <div class="case-industry">Transport &amp; Tourism · 90Crafters</div>
+          <div class="case-name">Sampaio Turismo</div>
+          <div class="case-role">E2E Developer · End-to-End Digitalization</div>
+        </div>
+        <div class="case-body">
+          <div>
+            <div class="case-block-label">The problem</div>
+            <div class="case-problem">Sales and operations managed via WhatsApp and spreadsheets — seat management, passenger lists, and billing all done manually. High rework and no scalable structure.</div>
+          </div>
+          <div>
+            <div class="case-block-label">What we built</div>
+            <div class="case-problem">Two integrated fronts: a passenger app for ticket purchase, seat selection, and real-time notifications — plus a web management panel for trips, buses, passenger lists, and billing.</div>
+          </div>
+          <div>
+            <div class="case-block-label">Impact</div>
+            <div class="case-impacts">
+              <div class="case-impact-item">Fully digital purchase journey for passengers</div>
+              <div class="case-impact-item">Significant reduction in manual customer service effort</div>
+              <div class="case-impact-item">Full control over seats, passengers, and revenue</div>
+              <div class="case-impact-item">Operation structurally ready to scale</div>
+            </div>
+          </div>
+        </div>
+        <div class="case-footer">
+          <span class="case-tag">Mobile App</span>
+          <span class="case-tag">React Native</span>
+          <span class="case-tag">Web Backoffice</span>
+          <span class="case-tag">E2E Digitalization</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="container">
+    <div class="section-label">06 — Testimonials</div>
+    <h2 class="section-title">What people<br><em>say about me</em></h2>
+  </div>
+  <div class="testimonials-track-wrap" style="margin-top:60px;">
+    <div class="testimonials-track">
+      <!-- SET 1 -->
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"Warley combines technical brilliance with high emotional intelligence and business acumen. He navigates ambiguity, leads critical deliveries, and builds deep trust with the client. I strongly endorse his performance."</div>
+        <div class="testimonial-author"><div class="testimonial-avatar">NT</div><div><div class="testimonial-name">Nuno Tavares</div><div class="testimonial-title">Senior Manager · Thoughtworks</div></div></div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"Warley is a pioneer when it comes to AI Agents — the first to implement the use cases the project needed. Very curious, diplomatic, with strategic vision of the business and the people's different interests."</div>
+        <div class="testimonial-author"><div class="testimonial-avatar">JA</div><div><div class="testimonial-name">Julio Almeida</div><div class="testimonial-title">Developer · Thoughtworks / AB InBev</div></div></div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"You're great at building on ideas, not shooting them down. By supporting each other's strengths and challenging assumptions, we created a product much stronger than either of us could have done alone."</div>
+        <div class="testimonial-author"><div class="testimonial-avatar">VG</div><div><div class="testimonial-name">Victor Pezzi Gazzinelli</div><div class="testimonial-title">Developer · AB InBev</div></div></div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"Warley has become a key person for the team. He has become a technical reference, is always available to help, and brings clarity in moments of crisis."</div>
+        <div class="testimonial-author"><div class="testimonial-avatar">IM</div><div><div class="testimonial-name">Isadora Minuzzi Vieira</div><div class="testimonial-title">Developer · Thoughtworks / AB InBev</div></div></div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"Warley is not only an excellent professional but also a truly great person. He has a natural leadership profile, inspiring others through his actions — ensuring everyone feels supported and motivated."</div>
+        <div class="testimonial-author"><div class="testimonial-avatar">FE</div><div><div class="testimonial-name">Felipe Esnarriaga</div><div class="testimonial-title">Developer · Thoughtworks / AB InBev</div></div></div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"Your proactive support in clarifying architectural details, infrastructure setup, and team dynamics made a big difference — it allowed the assessment to move faster and stay connected to the real technical landscape."</div>
+        <div class="testimonial-author"><div class="testimonial-avatar">DB</div><div><div class="testimonial-name">Diego Becker</div><div class="testimonial-title">Technical Assessment · Thoughtworks</div></div></div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"Warley has exceptional technical knowledge and a unique ability to translate complex concepts into clear, practical solutions. A true reference in AI and software engineering — always going beyond what's expected."</div>
+        <div class="testimonial-author"><div class="testimonial-avatar">BR</div><div><div class="testimonial-name">Bruno Raposo</div><div class="testimonial-title">Colleague · Thoughtworks</div></div></div>
+      </div>
+      <!-- SET 2 (duplicate for infinite scroll) -->
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"Warley combines technical brilliance with high emotional intelligence and business acumen. He navigates ambiguity, leads critical deliveries, and builds deep trust with the client. I strongly endorse his performance."</div>
+        <div class="testimonial-author"><div class="testimonial-avatar">NT</div><div><div class="testimonial-name">Nuno Tavares</div><div class="testimonial-title">Senior Manager · Thoughtworks</div></div></div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"Warley is a pioneer when it comes to AI Agents — the first to implement the use cases the project needed. Very curious, diplomatic, with strategic vision of the business and the people's different interests."</div>
+        <div class="testimonial-author"><div class="testimonial-avatar">JA</div><div><div class="testimonial-name">Julio Almeida</div><div class="testimonial-title">Developer · Thoughtworks / AB InBev</div></div></div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"You're great at building on ideas, not shooting them down. By supporting each other's strengths and challenging assumptions, we created a product much stronger than either of us could have done alone."</div>
+        <div class="testimonial-author"><div class="testimonial-avatar">VG</div><div><div class="testimonial-name">Victor Pezzi Gazzinelli</div><div class="testimonial-title">Developer · AB InBev</div></div></div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"Warley has become a key person for the team. He has become a technical reference, is always available to help, and brings clarity in moments of crisis."</div>
+        <div class="testimonial-author"><div class="testimonial-avatar">IM</div><div><div class="testimonial-name">Isadora Minuzzi Vieira</div><div class="testimonial-title">Developer · Thoughtworks / AB InBev</div></div></div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"Warley is not only an excellent professional but also a truly great person. He has a natural leadership profile, inspiring others through his actions — ensuring everyone feels supported and motivated."</div>
+        <div class="testimonial-author"><div class="testimonial-avatar">FE</div><div><div class="testimonial-name">Felipe Esnarriaga</div><div class="testimonial-title">Developer · Thoughtworks / AB InBev</div></div></div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"Your proactive support in clarifying architectural details, infrastructure setup, and team dynamics made a big difference — it allowed the assessment to move faster and stay connected to the real technical landscape."</div>
+        <div class="testimonial-author"><div class="testimonial-avatar">DB</div><div><div class="testimonial-name">Diego Becker</div><div class="testimonial-title">Technical Assessment · Thoughtworks</div></div></div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"Warley has exceptional technical knowledge and a unique ability to translate complex concepts into clear, practical solutions. A true reference in AI and software engineering — always going beyond what's expected."</div>
+        <div class="testimonial-author"><div class="testimonial-avatar">BR</div><div><div class="testimonial-name">Bruno Raposo</div><div class="testimonial-title">Colleague · Thoughtworks</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS & EDUCATION -->
+<section id="certifications">
+  <div class="container">
+    <div class="section-label">07 — Credentials</div>
+    <h2 class="section-title">Learning as<br><em>a practice</em></h2>
+
+    <div style="margin-top:48px;">
+      <div style="font-family:var(--font-mono);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--white-20);margin-bottom:20px;">Certifications &amp; Licenses</div>
+      <div class="certs-grid">
+        <div class="cert-card">
+          <div class="cert-icon">🧠</div>
+          <div class="cert-name">Claude 101</div>
+          <div class="cert-issuer">Anthropic</div>
+          <div class="cert-year">Mar 2026</div>
+        </div>
+        <div class="cert-card">
+          <div class="cert-icon">☁️</div>
+          <div class="cert-name">Cloud Fundamentals, Administration &amp; Solution Architect</div>
+          <div class="cert-issuer">FIAP · AWS · GCP · Azure</div>
+          <div class="cert-year">Apr 2025</div>
+        </div>
+        <div class="cert-card">
+          <div class="cert-icon">🐇</div>
+          <div class="cert-name">RabbitMQ Training Course</div>
+          <div class="cert-issuer">CloudAMQP</div>
+          <div class="cert-year">Jul 2023</div>
+        </div>
+        <div class="cert-card">
+          <div class="cert-icon">📄</div>
+          <div class="cert-name">Swagger — API Documentation</div>
+          <div class="cert-issuer">Alura</div>
+          <div class="cert-year">Mar 2023</div>
+        </div>
+        <div class="cert-card">
+          <div class="cert-icon">⭐</div>
+          <div class="cert-name">Strategic IT Management — Gold</div>
+          <div class="cert-issuer">FIAP</div>
+          <div class="cert-year">Dec 2022 · #B723F6E7</div>
+        </div>
+        <div class="cert-card">
+          <div class="cert-icon">📱</div>
+          <div class="cert-name">Mobile &amp; Digital Entrepreneurship — Gold</div>
+          <div class="cert-issuer">FIAP</div>
+          <div class="cert-year">Dec 2022 · #BF815509</div>
+        </div>
+        <div class="cert-card">
+          <div class="cert-icon">🔄</div>
+          <div class="cert-name">Agile Teams Organization</div>
+          <div class="cert-issuer">Alura</div>
+          <div class="cert-year">Jan 2023</div>
+        </div>
+        <div class="cert-card">
+          <div class="cert-icon">🔀</div>
+          <div class="cert-name">Git &amp; GitHub</div>
+          <div class="cert-issuer">Alura</div>
+          <div class="cert-year">Dec 2022</div>
+        </div>
+        <div class="cert-card">
+          <div class="cert-icon">🌐</div>
+          <div class="cert-name">JavaScript &amp; HTML</div>
+          <div class="cert-issuer">Alura</div>
+          <div class="cert-year">Dec 2022</div>
+        </div>
+        <div class="cert-card">
+          <div class="cert-icon">🐛</div>
+          <div class="cert-name">QA: Testing &amp; Bug Management Plan</div>
+          <div class="cert-issuer">Alura</div>
+          <div class="cert-year">Oct 2022</div>
+        </div>
+        <div class="cert-card">
+          <div class="cert-icon">🏛️</div>
+          <div class="cert-name">IT Governance</div>
+          <div class="cert-issuer">FIAP</div>
+          <div class="cert-year">Jul 2022 · #B11DF149</div>
+        </div>
+        <div class="cert-card">
+          <div class="cert-icon">🚀</div>
+          <div class="cert-name">Agile IT Projects Management</div>
+          <div class="cert-issuer">FIAP</div>
+          <div class="cert-year">Jul 2022 · #C1E98DD0</div>
+        </div>
+        <div class="cert-card">
+          <div class="cert-icon">🇬🇧</div>
+          <div class="cert-name">English — B2 Upper Intermediate</div>
+          <div class="cert-issuer">EF SET</div>
+          <div class="cert-year">Oct 2022 · #X3nFNP</div>
+        </div>
+        <div class="cert-card">
+          <div class="cert-icon">⚛️</div>
+          <div class="cert-name">React + Redux &amp; Firebase</div>
+          <div class="cert-issuer">Cod3r</div>
+          <div class="cert-year">Sep 2022</div>
+        </div>
+        <div class="cert-card">
+          <div class="cert-icon">📲</div>
+          <div class="cert-name">React Native &amp; Mobile App Frameworks</div>
+          <div class="cert-issuer">IGTI</div>
+          <div class="cert-year">Sep 2020</div>
+        </div>
+        <div class="cert-card">
+          <div class="cert-icon">🏅</div>
+          <div class="cert-name">Scrum Foundations Professional (SFPC)</div>
+          <div class="cert-issuer">Certiprof</div>
+          <div class="cert-year">Jul 2020</div>
+        </div>
+        <div class="cert-card">
+          <div class="cert-icon">🔐</div>
+          <div class="cert-name">Telecom, Cybersecurity &amp; Digital Forensics</div>
+          <div class="cert-issuer">Univ. Castilla-La Mancha</div>
+          <div class="cert-year">Nov 2019</div>
+        </div>
+        <div class="cert-card" style="background:rgba(255,255,255,.02);border-style:dashed;display:flex;align-items:center;justify-content:center;">
+          <div style="text-align:center;">
+            <div style="font-family:var(--font-mono);font-size:.68rem;color:var(--white-20);letter-spacing:.1em;">In progress</div>
+            <div style="font-size:.88rem;color:var(--white-40);margin-top:8px;">AI / Python / Cloud<br>Certifications</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:60px;">
+      <div style="font-family:var(--font-mono);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--white-20);margin-bottom:20px;">Education</div>
+      <div class="edu-grid">
+        <div class="edu-card">
+          <div class="edu-degree">Postgraduate · Cloud Computing</div>
+          <div class="edu-school">Anhanguera</div>
+          <div class="edu-period">2024</div>
+        </div>
+        <div class="edu-card">
+          <div class="edu-degree">IT Management</div>
+          <div class="edu-school">FIAP</div>
+          <div class="edu-period">2021 — 2023</div>
+        </div>
+        <div class="edu-card">
+          <div class="edu-degree">Information Systems Management</div>
+          <div class="edu-school">PUC Minas</div>
+          <div class="edu-period">2014 — 2017</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="mentorship">
+  <div class="container">
+    <div class="section-label">08 — Let's Work Together</div>
+    <div class="cta-box reveal">
+      <div class="cta-label">Open for opportunities</div>
+      <h2 class="cta-title">Need someone who<br>delivers <em>and</em> inspires?</h2>
+      <p class="cta-desc">Available for AI/GenAI projects, technical consulting, individual mentorship, and strategic partnerships. If you want to build something meaningful with cutting-edge technology, let's talk.</p>
+      <div class="cta-actions">
+        <a href="mailto:warleycssilva@gmail.com" class="btn-primary">Send a Message</a>
+        <a href="https://wa.me/553193474655" target="_blank" class="btn-ghost">WhatsApp</a>
+        <a href="https://www.linkedin.com/in/warley-silva" target="_blank" class="btn-ghost">LinkedIn</a>
+      </div>
+      <div class="cta-bullets">
+        <div class="cta-bullet"><div class="cta-bullet-title">AI Agents</div><div class="cta-bullet-desc">Consulting & Architecture</div></div>
+        <div class="cta-bullet"><div class="cta-bullet-title">Mentorship</div><div class="cta-bullet-desc">Career & Technical</div></div>
+        <div class="cta-bullet"><div class="cta-bullet-title">Partnerships</div><div class="cta-bullet-desc">Projects & Products</div></div>
+        <div class="cta-bullet"><div class="cta-bullet-title">Talks</div><div class="cta-bullet-desc">AI, Engineering & Leadership</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-name">Warley Silva · Lead Engineer &amp; AI Architect</div>
+  <div class="footer-links">
+    <a href="https://www.linkedin.com/in/warley-silva" target="_blank">LinkedIn</a>
+    <a href="https://wa.me/553193474655" target="_blank">WhatsApp</a>
+    <a href="mailto:warleycssilva@gmail.com">Email</a>
+    <a href="#hero">Top ↑</a>
+  </div>
+  <div class="footer-copy">© 2026 · Belo Horizonte, Brazil</div>
+</footer>
+
+<script>
+  // CURSOR
+  const dot = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',(e)=>{
+    mx=e.clientX; my=e.clientY;
+    dot.style.left=mx+'px'; dot.style.top=my+'px';
+    dot.style.transform='translate(-50%,-50%)';
+  });
+  (function animRing(){
+    rx+=(mx-rx)*.12; ry+=(my-ry)*.12;
+    ring.style.left=rx+'px'; ring.style.top=ry+'px';
+    ring.style.transform='translate(-50%,-50%)';
+    requestAnimationFrame(animRing);
+  })();
+  document.querySelectorAll('a,button').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{ ring.style.width='48px'; ring.style.height='48px'; ring.style.borderColor='rgba(255,255,255,.5)'; });
+    el.addEventListener('mouseleave',()=>{ ring.style.width='32px'; ring.style.height='32px'; ring.style.borderColor='rgba(255,255,255,.25)'; });
+  });
+
+  // NAV SCROLL
+  const nav=document.getElementById('mainNav');
+  window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>60));
+
+  // TYPEWRITER
+  const phrases=['Lead Developer @ Thoughtworks','Tech Lead @ AB InBev · Stellar','AI Agents & RAG Architect','GenAI Engineering Reference','Mentor & Technical Leader'];
+  let pi=0,ci=0,del=false;
+  const te=document.getElementById('typed-text');
+  function tw(){
+    const c=phrases[pi];
+    if(!del){te.textContent=c.substring(0,ci+1);ci++;if(ci===c.length){del=true;setTimeout(tw,1800);return;}}
+    else{te.textContent=c.substring(0,ci-1);ci--;if(ci===0){del=false;pi=(pi+1)%phrases.length;}}
+    setTimeout(tw,del?45:75);
+  }
+  setTimeout(tw,1200);
+
+  // INTERSECTION OBSERVER
+  const obs=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+  },{threshold:.08,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal,.timeline-item,.stack-group,.project-card,.case-card,.cert-card,.edu-card').forEach((el,i)=>{
+    if(!el.classList.contains('reveal'))el.style.transitionDelay=(i%5)*.08+'s';
+    obs.observe(el);
+  });
+
+  // PARALLAX ORBS
+  window.addEventListener('mousemove',(e)=>{
+    const x=(e.clientX/innerWidth-.5)*30, y=(e.clientY/innerHeight-.5)*30;
+    document.querySelector('.hero-bg-orb-1').style.transform=`translate(${x}px,${y}px)`;
+    document.querySelector('.hero-bg-orb-2').style.transform=`translate(${-x*.5}px,${-y*.5}px)`;
+  });
+
+  // 3D TILT
+  document.querySelectorAll('.project-card').forEach(c=>{
+    c.addEventListener('mousemove',(e)=>{
+      const r=c.getBoundingClientRect();
+      const x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
+      c.style.transform=`perspective(1000px) rotateX(${y*-4}deg) rotateY(${x*4}deg) translateY(-4px)`;
+    });
+    c.addEventListener('mouseleave',()=>c.style.transform='perspective(1000px) rotateX(0) rotateY(0) translateY(0)');
+  });
+</script>
 </body>
-
 </html>
