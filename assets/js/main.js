@@ -49,6 +49,16 @@ document.getElementById('langToggle').addEventListener('click', e => {
   }
 });
 
+// ─── THEME ───────────────────────────────────────────────────────────────────
+// Light is the default. The saved choice is applied early by the inline script in <head>.
+document.getElementById('themeToggle').addEventListener('click', () => {
+  const root = document.documentElement;
+  const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  if (next === 'dark') root.dataset.theme = 'dark';
+  else delete root.dataset.theme;
+  try { localStorage.setItem('theme', next); } catch (e) {}
+});
+
 // ─── CURSOR ──────────────────────────────────────────────────────────────────
 const dot = document.getElementById('cursorDot');
 const ring = document.getElementById('cursorRing');
@@ -75,12 +85,12 @@ document.querySelectorAll('a,button').forEach(el => {
   el.addEventListener('mouseenter', () => {
     ring.style.width = '48px';
     ring.style.height = '48px';
-    ring.style.borderColor = 'rgba(255,255,255,.5)';
+    ring.style.borderColor = 'rgba(var(--fg-rgb),.5)';
   });
   el.addEventListener('mouseleave', () => {
     ring.style.width = '32px';
     ring.style.height = '32px';
-    ring.style.borderColor = 'rgba(255,255,255,.25)';
+    ring.style.borderColor = '';
   });
 });
 
